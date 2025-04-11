@@ -13,4 +13,15 @@ class ErrorHandler
             "line" => $exception -> getLine()
         ]);
     }
+
+    public static function handleError(
+        int $errno,
+        int $errstr,
+        int $errfile,
+        int $errline
+    ): bool
+    {
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    }
+
 }

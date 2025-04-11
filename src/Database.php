@@ -2,7 +2,7 @@
 
 class Database
 {
-    // On php 4.1.30
+    // On php 7.1.30
     private $host;
     private $name;
     private $user;
