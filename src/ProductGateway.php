@@ -56,15 +56,17 @@ class ProductGateway
     
     public function update(array $current, array $new): int
     {
-        $sql = "UPDATE users SET username = :username, user_status = :user_status, user_email = :user_email
-        WHERE user_id=:user_id";
+        $sql = "UPDATE users 
+        SET username = :username, user_status = :user_status, user_email = :user_email
+        WHERE user_id=:user_id;";
 
         $stmt = $this -> conn -> prepare($sql);
+
         $stmt -> bindValue(":username", $new["username"] ?? $current["username"], PDO::PARAM_STR); 
         $stmt -> bindValue(":user_status", $new["user_status"] ?? $current["user_status"], PDO::PARAM_INT); 
         $stmt -> bindValue(":user_email", $new["user_email"] ?? $current["user_email"], PDO::PARAM_STR); 
 
-        //$stmt -> bindValue(":user_id", $current["user_id"], PDO::PARAM_INT); 
+        $stmt -> bindValue(":user_id", $current["user_id"], PDO::PARAM_INT); 
 
         $stmt -> execute();
 

@@ -23,6 +23,7 @@ class ProductController
     {
         // var_dump($method, $id);
         $user = $this -> gateway -> get($id);
+
         if(!$user){
             http_response_code(404);
             echo json_encode([
@@ -30,13 +31,16 @@ class ProductController
             ]);
             return;
         }
+
         switch ($method){
             case "GET":
                 echo json_encode($user);
                 break;
             case "PATCH":
+                // this is the stream input of php
                 // if its null then it converts to an empy array if it isnt it just print it out
-                $data = (array) $_POST;
+                // make sure you're actually sending JSON to decode it here
+                $data = (array) json_decode(file_get_contents("php://input"), true);
 
                 $errors = $this -> getValidationErrors($data);
 
@@ -47,13 +51,14 @@ class ProductController
                     ]);
                     break;
                 }
+
                 $rows = $this->gateway->update($user, $data);
 
                 echo json_encode([
                     "message" => "Product $id updated",
                     "rows" => $rows
                 ]);
-
+//
                 break;
         }
     }
